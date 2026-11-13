@@ -210,10 +210,10 @@ function upd(){
   document.getElementById('depTag').style.color=starsLockUntil>Date.now()?'#FFB800':'#00E676';
   document.getElementById('inv').innerHTML=inv.length?inv.map((x,i)=>{
     let locked=x.nft && x.cd>Date.now();
-    let wBtn=locked?'<button class="sm-btn lock" onclick="alert(\'КД 21 день на вывод NFT после депозита Stars. Продать за 85% можно сразу!\')">'+fmtCd(x.cd)+'</button>':'<button class="sm-btn grn" onclick="withdrawInv('+i+')">Вывести</button>';
+    let wBtn=locked?'<button class="sm-btn lock" onclick="alert('КД 21 день на вывод NFT после депозита Stars. Продать за 85% можно сразу!')">'+fmtCd(x.cd)+'</button>':'<button class="sm-btn grn" onclick="withdrawInv('+i+')">Вывести</button>';
     return '<div class="row"><div><b>'+x.n+'</b><div style="font-size:11px;color:#FFB800">'+x.p+' ⭐️</div></div><div style="display:flex;gap:6px">'+wBtn+'<button class="sm-btn" onclick="sell('+i+')">+'+Math.floor(x.p*0.85)+'⭐️</button></div></div>';
   }).join(''):'<div style="color:#8A94A6;font-size:13px;text-align:center;padding:12px">Инвентарь пуст</div>';
-  document.getElementById('tList').innerHTML=TASKS.map(t=>'<div class="row"><span>'+t.t+' (<b>+'+t.a+' ⭐️</b>)</span><button class="sm-btn '+(claimedTasks[t.id]?'':'blu')+'" '+(claimedTasks[t.id]?'disabled':'')+' onclick="claimTask(\''+t.id+'\','+t.a+')">'+(claimedTasks[t.id]?'✅ Получено':'Забрать')+'</button></div>').join('');
+  document.getElementById('tList').innerHTML=TASKS.map(t=>'<div class="row"><span>'+t.t+' (<b>+'+t.a+' ⭐️</b>)</span><button class="sm-btn '+(claimedTasks[t.id]?'':'blu')+'" '+(claimedTasks[t.id]?'disabled':'')+' onclick="claimTask(''+t.id+'','+t.a+')">'+(claimedTasks[t.id]?'✅ Получено':'Забрать')+'</button></div>').join('');
 }
 function depStars(a){bal+=a;starsLockUntil=Date.now()+21*86400000;upd();alert('Зачислено +'+a+' ⭐️! На выигранные NFT действует КД 21 день.');}
 function depTon(a){bal+=a;starsLockUntil=0;upd();alert('Зачислено +'+a+' ⭐️ через TON! Вывод NFT открыт без КД.');}
