@@ -7,35 +7,67 @@
 <script src="https://telegram.org"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
-body{background:#0B0E17;color:#fff;padding-bottom:85px}
-.hd{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#151A28;border-bottom:1px solid #232A3D;position:sticky;top:0;z-index:50}
+body{background:#0B0E17;color:#fff;padding-bottom:85px;overflow-x:hidden}
+.hd{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#151A28;border-bottom:1px solid #232A3D;position:sticky;top:0;z-index:50}
 .badge{background:rgba(255,184,0,.15);color:#FFB800;font-size:11px;padding:2px 7px;border-radius:8px;margin-left:6px;font-weight:700}
-.bal{background:#0B0E17;padding:5px 12px;border-radius:20px;font-weight:700;font-size:14px}
+.hd-r{display:flex;align-items:center;gap:8px}
+.bal{background:#0B0E17;padding:5px 11px;border-radius:20px;font-weight:700;font-size:13px;border:1px solid #232A3D}
+.book-btn{background:#1E2538;border:1px solid #232A3D;color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:100;align-items:center;justify-content:center;padding:16px}
+.modal.open{display:flex}
+.m-box{background:#151A28;border:1px solid #232A3D;border-radius:18px;padding:18px;max-width:360px;width:100%;font-size:13px;line-height:1.45}
 .pg{display:none;padding:14px}.pg.act{display:block}
 .seg{display:flex;background:#151A28;padding:4px;border-radius:12px;margin-bottom:14px}
 .seg button{flex:1;padding:10px;border:none;background:none;color:#8A94A6;font-weight:700;border-radius:9px;cursor:pointer}
 .seg button.act{background:#2AABEE;color:#fff}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.card{background:#151A28;border:1px solid #232A3D;border-radius:16px;padding:16px 10px;text-align:center;cursor:pointer}
+.card{background:#151A28;border:1px solid #232A3D;border-radius:16px;padding:14px 10px;text-align:center;cursor:pointer}
 .btn{width:100%;padding:14px;border:none;border-radius:14px;background:#00E676;color:#000;font-weight:800;font-size:15px;cursor:pointer;margin-top:8px}
 .btn.gold{background:#FFB800}
+.btn:disabled{opacity:.45;cursor:not-allowed}
 .back{background:#151A28;color:#fff;border:1px solid #232A3D;padding:8px 14px;border-radius:10px;margin-bottom:12px;cursor:pointer}
 .board{display:grid;gap:5px;max-width:320px;margin:10px auto}
 .cell{aspect-ratio:1;background:#1E2538;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer}
 .cell.ok{background:rgba(0,230,118,.2);border:1px solid #00E676}
 .cell.boom{background:rgba(255,71,87,.3);border:1px solid #FF4757}
-.wheel{width:210px;height:210px;border-radius:50%;border:6px solid #232A3D;margin:12px auto;background:conic-gradient(#2AABEE 0% 45%,#FF6B00 45% 80%,#9B51E0 80% 100%);transition:transform 3s ease}
+.w-wrap{position:relative;width:230px;height:230px;margin:10px auto}
+.w-pin{position:absolute;top:-10px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-top:22px solid #FFB800;z-index:10}
+.wheel{width:100%;height:100%;border-radius:50%;border:6px solid #232A3D;position:relative;transition:transform 3.5s cubic-bezier(.15,.85,.25,1)}
+.w-av{position:absolute;width:32px;height:32px;border-radius:50%;background:#151A28;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;transform:translate(-50%,-50%)}
+.r-box{background:#151A28;border:2px solid #FFB800;border-radius:14px;padding:12px 0;margin:10px 0;overflow:hidden;position:relative}
+.r-pin{position:absolute;top:0;bottom:0;left:50%;width:3px;background:#FFB800;z-index:10}
+.r-track{display:flex;gap:8px;padding-left:50%}
+.r-item{min-width:84px;height:90px;background:#0B0E17;border:1px solid #232A3D;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;padding:4px;text-align:center}
+.u-ring{width:150px;height:150px;border-radius:50%;margin:12px auto;position:relative;border:8px solid #232A3D;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#151A28}
+.u-needle{position:absolute;inset:-8px;border-radius:50%;transition:transform 2.8s cubic-bezier(.12,.85,.22,1)}
+.u-needle::after{content:'▼';position:absolute;top:-14px;left:50%;transform:translateX(-50%);color:#FFB800;font-size:16px}
 .nav{position:fixed;bottom:0;left:0;right:0;background:#151A28;display:flex;border-top:1px solid #232A3D;padding:10px 0;z-index:50}
 .nav div{flex:1;text-align:center;color:#8A94A6;font-size:11px;font-weight:600;cursor:pointer}
 .nav div.act{color:#FFB800}
-.row{display:flex;justify-content:space-between;align-items:center;background:#151A28;padding:12px;border-radius:12px;margin-bottom:8px;font-size:13px}
-input,select{background:#0B0E17;color:#fff;border:1px solid #232A3D;padding:8px;border-radius:10px;text-align:center;font-weight:700}
+.row{display:flex;justify-content:space-between;align-items:center;background:#151A28;padding:11px 12px;border-radius:12px;margin-bottom:8px;font-size:13px;gap:8px}
+input,select{background:#0B0E17;color:#fff;border:1px solid #232A3D;padding:9px;border-radius:10px;text-align:center;font-weight:700;font-size:13px}
+.sm-btn{border:none;padding:7px 10px;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;color:#fff;background:#232A3D}
+.sm-btn.grn{background:#00E676;color:#000}
+.sm-btn.blu{background:#2AABEE}
+.sm-btn.lock{background:#232A3D;color:#FFB800;cursor:not-allowed}
 </style>
 </head>
 <body>
 <div class="hd">
   <div><b>🎁 Gift Rush</b><span class="badge" id="lvl">LVL 1</span></div>
-  <div class="bal">⭐️ <span id="bal">250</span></div>
+  <div class="hd-r">
+    <div class="bal">⭐️ <span id="bal">250</span></div>
+    <button class="book-btn" onclick="document.getElementById('rulesM').classList.add('open')">📖</button>
+  </div>
+</div>
+<div class="modal" id="rulesM" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="m-box">
+    <h3 style="margin-bottom:10px;color:#FFB800">📖 Правила вывода и КД</h3>
+    <p style="margin-bottom:8px">⭐ <b>Пополнение Telegram Stars:</b><br>На все выигранные или купленные <b>NFT-подарки</b> действует обязательный <b>КД (холд) 21 день</b> до вывода в Telegram. Продать подарок за 85% звёзд можно сразу.</p>
+    <p style="margin-bottom:8px">💎 <b>Пополнение через TON:</b><br>Никакого КД нет — <b>вывод NFT доступен мгновенно</b>.</p>
+    <p style="margin-bottom:12px">🧸 <b>Обычные подарки (не-NFT):</b><br>Отправляются в Telegram сразу без ожидания.</p>
+    <button class="btn" onclick="document.getElementById('rulesM').classList.remove('open')">ПОНЯТНО</button>
+  </div>
 </div>
 <div id="p-games" class="pg act">
   <div id="lobby">
@@ -46,9 +78,9 @@ input,select{background:#0B0E17;color:#fff;border:1px solid #232A3D;padding:8px;
     <div id="g-all" class="grid">
       <div class="card" onclick="openG('mines')"><div style="font-size:32px">💣</div><b>Мины</b><div style="font-size:11px;color:#8A94A6">3×3 • 5×5 • 7×7</div></div>
       <div class="card" onclick="openG('crash')"><div style="font-size:32px">🚀</div><b>Краш</b><div style="font-size:11px;color:#8A94A6">Комиссия 25%</div></div>
-      <div class="card" onclick="openG('cases')"><div style="font-size:32px">📦</div><b>Кейсы</b><div style="font-size:11px;color:#8A94A6">25 – 500 ⭐️</div></div>
-      <div class="card" onclick="openG('upg')"><div style="font-size:32px">⚡</div><b>Апгрейды</b><div style="font-size:11px;color:#8A94A6">До 25 000 ⭐️</div></div>
-      <div class="card" style="grid-column:span 2" onclick="openG('wheel')"><div style="font-size:32px">🎡</div><b>Колесо Фортуны</b><div style="font-size:11px;color:#8A94A6">Общий банк • 12%</div></div>
+      <div class="card" onclick="openG('cases')"><div style="font-size:32px">📦</div><b>Кейсы</b><div style="font-size:11px;color:#8A94A6">С рулеткой • от 25 ⭐️</div></div>
+      <div class="card" onclick="openG('upg')"><div style="font-size:32px">⚡</div><b>Апгрейды</b><div style="font-size:11px;color:#8A94A6">До 25 459 ⭐️</div></div>
+      <div class="card" style="grid-column:span 2" onclick="openG('wheel')"><div style="font-size:32px">🎡</div><b>Колесо Фортуны</b><div style="font-size:11px;color:#8A94A6">Своя ставка • Банк игроков</div></div>
     </div>
     <div id="g-fr" class="grid" style="display:none">
       <div class="card" onclick="alert('Комната Русская рулетка создана!')"><div style="font-size:32px">🔫</div><b>Русская рулетка</b></div>
@@ -57,76 +89,89 @@ input,select{background:#0B0E17;color:#fff;border:1px solid #232A3D;padding:8px;
       <div class="card" onclick="alert('Комната Крестики-нолики создана!')"><div style="font-size:32px">❌</div><b>Крестики-нолики</b></div>
     </div>
   </div>
-
   <div id="s-mines" style="display:none">
     <button class="back" onclick="back()">← Назад</button>
     <div class="row">
-      <span>Сетка: <button onclick="setSz(3)">3×3</button> <button onclick="setSz(5)">5×5</button> <button onclick="setSz(7)">7×7</button></span>
+      <span>Сетка: <button class="sm-btn" onclick="setSz(3)">3×3</button> <button class="sm-btn" onclick="setSz(5)">5×5</button> <button class="sm-btn" onclick="setSz(7)">7×7</button></span>
       <span>Бомб: <input id="bCnt" type="number" value="3" min="1" max="48" style="width:55px"></span>
     </div>
     <div class="board" id="brd"></div>
     <div class="row"><span>Ставка (10-3000):</span><input id="mBet" type="number" value="10" style="width:90px"></div>
     <button class="btn" id="mBtn" onclick="mAct()">ИГРАТЬ</button>
   </div>
-
   <div id="s-crash" style="display:none">
     <button class="back" onclick="back()">← Назад</button>
-    <div class="card" style="padding:30px">
-      <div style="font-size:40px">🚀</div>
+    <div class="card" style="padding:26px">
+      <div style="font-size:38px">🚀</div>
       <h1 id="cMult" style="color:#FFB800">1.00x</h1>
       <p id="cSt" style="color:#8A94A6;font-size:12px">Готов к взлёту</p>
     </div>
     <div class="row" style="margin-top:10px"><span>Ставка:</span><input id="cBet" type="number" value="25" style="width:90px"></div>
     <button class="btn" id="cBtn" onclick="cAct()">ПОСТАВИТЬ</button>
   </div>
-
   <div id="s-cases" style="display:none">
     <button class="back" onclick="back()">← Назад</button>
-    <div class="grid" id="cList"></div>
+    <div id="cList" class="grid"></div>
+    <div id="cDetail" style="display:none">
+      <div class="card" style="margin-bottom:8px">
+        <div style="font-size:42px">📦</div>
+        <h3 id="cdName">Кейс</h3>
+        <div class="r-box"><div class="r-pin"></div><div class="r-track" id="rTrack"></div></div>
+        <button class="btn" id="cdOpenBtn" onclick="spinCase()">ОТКРЫТЬ КЕЙС</button>
+        <button class="sm-btn" style="margin-top:8px;width:100%" onclick="closeCaseDetail()">К списку кейсов</button>
+      </div>
+      <h4 style="margin:8px 0;font-size:13px;color:#8A94A6">🎁 Содержимое кейса:</h4>
+      <div id="cdDrops" class="grid"></div>
+    </div>
   </div>
-
   <div id="s-upg" style="display:none">
     <button class="back" onclick="back()">← Назад</button>
     <div class="card">
-      <p style="color:#8A94A6;font-size:12px">Ставка -> Цель (до 25 000 ⭐️)</p>
-      <div style="margin:12px 0"><select id="uFrom" onchange="uCalc()"></select> ➔ <select id="uTo" onchange="uCalc()"></select></div>
-      <h2 id="uCh" style="color:#FFB800">Шанс: 4.7%</h2>
-      <button class="btn" onclick="uRun()">УЛУЧШИТЬ</button>
+      <p style="color:#8A94A6;font-size:12px">Выбери подарок и цель (макс. ×25)</p>
+      <div style="margin:10px 0;display:flex;flex-direction:column;gap:8px">
+        <select id="uFrom" onchange="uCalc(true)"></select>
+        <div>⬇️</div>
+        <select id="uTo" onchange="uCalc(false)"></select>
+      </div>
+      <div class="u-ring" id="uRing">
+        <div class="u-needle" id="uNeedle"></div>
+        <span style="font-size:11px;color:#8A94A6">ШАНС</span>
+        <b id="uCh" style="font-size:22px;color:#FFB800">50.0%</b>
+      </div>
+      <button class="btn" id="uBtn" onclick="uRun()">УЛУЧШИТЬ ПОДАРОК</button>
     </div>
   </div>
-
   <div id="s-wheel" style="display:none">
     <button class="back" onclick="back()">← Назад</button>
-    <div class="wheel" id="whl"></div>
-    <button class="btn" onclick="wSpin(25)">КРУТИТЬ ЗА 25 ⭐️</button>
+    <div style="text-align:center;font-weight:800;margin-bottom:4px">Общий банк: <span style="color:#FFB800" id="wBank">150 ⭐️</span></div>
+    <div class="w-wrap"><div class="w-pin"></div><div class="wheel" id="whl"></div></div>
+    <div class="row"><span>Твоя ставка (⭐️):</span><input id="wBet" type="number" value="50" min="10" max="3000" style="width:100px"></div>
+    <button class="btn" id="wBtn" onclick="wSpin()">ПОСТАВИТЬ И КРУТИТЬ</button>
+    <h4 style="margin:12px 0 6px;font-size:13px;color:#8A94A6">👥 Игроки в раунде:</h4>
+    <div id="wPlayers"></div>
   </div>
 </div>
-
 <div id="p-mkt" class="pg">
-  <h3 style="margin-bottom:10px">🛒 Маркет (15 – 25 000 ⭐️)</h3>
+  <h3 style="margin-bottom:10px">🛒 Маркет по флору</h3>
   <div class="grid" id="mList"></div>
 </div>
-
 <div id="p-tsk" class="pg">
-  <h3 style="margin-bottom:10px">📋 Задания</h3>
-  <div class="row"><span>Пригласи друга (+5 ⭐️)</span><button onclick="bonus(5)">Забрать</button></div>
-  <div class="row"><span>Подписка на канал (+3 ⭐️)</span><button onclick="bonus(3)">Забрать</button></div>
+  <h3 style="margin-bottom:10px">📋 Задания (1 раз на аккаунт)</h3>
+  <div id="tList"></div>
 </div>
-
 <div id="p-prf" class="pg">
   <div class="card">
     <h3 id="uName">Игрок Gift Rush</h3>
     <p id="rk" style="color:#FFB800;margin:6px 0">LVL 1 • Новичок</p>
-    <p style="font-size:12px;color:#8A94A6">Оборот: <b id="wg">0</b> ⭐️</p>
+    <p style="font-size:12px;color:#8A94A6">Оборот: <b id="wg">0</b> ⭐️ • Депозит: <b id="depTag" style="color:#00E676">TON (без КД)</b></p>
     <div style="display:flex;gap:8px;margin-top:12px">
-      <button class="btn gold" onclick="bonus(100)">+100 Stars</button>
-      <button class="btn" style="background:#2AABEE;color:#fff" onclick="bonus(500)">+500 TON</button>
+      <button class="btn gold" style="font-size:13px" onclick="depStars(500)">+500 Stars (КД 21д)</button>
+      <button class="btn" style="background:#2AABEE;color:#fff;font-size:13px" onclick="depTon(500)">+500 TON (Без КД)</button>
     </div>
   </div>
-  <h4 style="margin:10px 0">🎒 Инвентарь</h4>
+  <h4 style="margin:12px 0 8px">🎒 Инвентарь</h4>
   <div id="inv"></div>
 </div>
-
 <div class="nav">
   <div class="act" onclick="tab('games',this)">🎮<br>Игры</div>
   <div onclick="tab('mkt',this)">🛒<br>Маркет</div>
@@ -135,130 +180,93 @@ input,select{background:#0B0E17;color:#fff;border:1px solid #232A3D;padding:8px;
 </div>
 <script>
 const tg=window.Telegram?.WebApp;
-if(tg){tg.expand();tg.ready();if(tg.initDataUnsafe?.user)document.getElementById('uName').innerText=tg.initDataUnsafe.user.first_name;}
-let bal=250,wg=0,inv=[{n:'Роза 🌹',p:25}];
-const GIFTS=[{n:'Мишка 🧸',p:15},{n:'Роза 🌹',p:25},{n:'Торт 🎂',p:50},{n:'Кубок 🏆',p:100},{n:'Lol Pop NFT 🍭',p:450},{n:'Desk Calendar NFT 📅',p:550},{n:'Eternal Rose NFT 🌹',p:2000},{n:'Signet Ring NFT 💍',p:3500},{n:'Loot Bag NFT 💰',p:8500},{n:'Magic Potion NFT 🧪',p:12000},{n:'Swiss Watch NFT ⌚️',p:20000},{n:'Astral Shard NFT 🔮',p:25000}];
-const CASES=[
-  {n:'Старт 📦',p:25,d:[{n:'5 ⭐️',p:5,w:50,s:1},{n:'Мишка 🧸',p:15,w:32},{n:'Роза 🌹',p:25,w:12},{n:'Торт 🎂',p:50,w:6}]},
-  {n:'Романтик 💝',p:50,d:[{n:'10 ⭐️',p:10,w:48,s:1},{n:'Роза 🌹',p:25,w:30},{n:'Торт 🎂',p:50,w:14},{n:'Кубок 🏆',p:100,w:8}]},
-  {n:'Звёздный куш 🌟',p:100,d:[{n:'Роза 🌹',p:25,w:52},{n:'Торт 🎂',p:50,w:28},{n:'Кубок 🏆',p:100,w:18},{n:'Lol Pop NFT 🍭',p:450,w:2}]},
-  {n:'Охота на NFT 🎯',p:200,d:[{n:'Торт 🎂',p:50,w:55},{n:'Кубок 🏆',p:100,w:37},{n:'Lol Pop NFT 🍭',p:450,w:8}]},
-  {n:'VIP Мажор 👑',p:500,d:[{n:'Кубок 🏆',p:100,w:50},{n:'Lol Pop NFT 🍭',p:450,w:42},{n:'Eternal Rose NFT 🌹',p:2000,w:8}]}
+let myName='Ты',myAva='😎';
+if(tg){tg.expand();tg.ready();if(tg.initDataUnsafe?.user){myName=tg.initDataUnsafe.user.first_name;myAva=myName.toUpperCase();document.getElementById('uName').innerText=myName;}}
+let bal=250,wg=0,starsLockUntil=0;
+let inv=[{n:'Роза 🌹',p:25,nft:0,cd:0},{n:'Ice Cream NFT 🍦',p:440,nft:1,cd:0}];
+let claimedTasks=JSON.parse(localStorage.getItem('gr_tasks')||'{}');
+const TASKS=[{id:'ref',t:'Пригласить друга',a:5},{id:'sub',t:'Подписка на ТГК',a:3},{id:'day',t:'Приветственный бонус',a:2}];
+const GIFTS=[
+  {n:'Мишка 🧸',p:15,nft:0},{n:'Роза 🌹',p:25,nft:0},{n:'Торт 🎂',p:50,nft:0},{n:'Кубок 🏆',p:100,nft:0},
+  {n:'Fresh Socks NFT 🧦',p:430,nft:1},{n:'Big Year NFT 2️⃣5️⃣',p:436,nft:1},{n:'Clover Pin NFT 🍀',p:438,nft:1},
+  {n:'Ice Cream NFT 🍦',p:440,nft:1},{n:'Holiday Drink NFT 🍹',p:480,nft:1},{n:'Lol Pop NFT 🍭',p:485,nft:1},
+  {n:'Candy Cane NFT 🍬',p:499,nft:1},{n:'Jester Hat NFT 🃏',p:500,nft:1},{n:'Snake Box NFT 🐍',p:500,nft:1},
+  {n:'Tama Gadget NFT 👾',p:500,nft:1},{n:'Bow Tie NFT 🎀',p:500,nft:1},{n:'Pink Flamingo NFT 🦩',p:500,nft:1},
+  {n:'Star Notepad NFT 📝',p:500,nft:1},{n:'Happy B-Day NFT 🎂',p:520,nft:1},{n:'Ice Pop NFT 🍫',p:523,nft:1},
+  {n:'Ginger Cookie NFT 🍪',p:533,nft:1},{n:'B-Day Candle NFT 🕯️',p:533,nft:1},{n:'Desk Calendar NFT 📅',p:533,nft:1},
+  {n:'Spiced Wine NFT 🍷',p:533,nft:1},{n:'Lush Bouquet NFT 💐',p:533,nft:1},{n:'Light Sword NFT ⚔️',p:533,nft:1},
+  {n:'Stellar Rocket NFT 🚀',p:533,nft:1},{n:'Backpack NFT 🎒',p:533,nft:1},{n:'Pet Snake NFT 🐍',p:533,nft:1},
+  {n:'Sakura Flower NFT 🌸',p:545,nft:1},{n:'Homemade Cake NFT 🧁',p:555,nft:1},{n:'Input Key NFT ⌨️',p:572,nft:1},
+  {n:'Moon Pendant NFT 🌙',p:576,nft:1},{n:'Spell Book NFT 📕',p:594,nft:1},{n:'Santa Hat NFT 🎅',p:604,nft:1},
+  {n:'Evil Eye NFT 🧿',p:607,nft:1},{n:'Snow Globe NFT 🔮',p:610,nft:1},{n:'Witch Hat NFT 🧙‍♀️',p:625,nft:1},
+  {n:'Flying Broom NFT 🧹',p:625,nft:1},{n:'Snoop Dogg NFT 🚬',p:625,nft:1},{n:'Surfboard NFT 🏄',p:625,nft:1},
+  {n:'Easter Egg NFT 🥚',p:670,nft:1},{n:'X-Mas Stocking NFT 🧦',p:690,nft:1},{n:'Watch NFT 👁️',p:704,nft:1},
+  {n:'Toy Bear NFT 🧸',p:732,nft:1},{n:'Love Potion NFT 🧪',p:757,nft:1},{n:'Bunny Muffin NFT 🐰',p:769,nft:1},
+  {n:'Top Hat NFT 🎩',p:906,nft:1},{n:'Jason Mask NFT 🎭',p:921,nft:1},{n:'Eternal Candle NFT 🕯️',p:945,nft:1},
+  {n:'Record Player NFT 📻',p:995,nft:1},{n:'Love Candle NFT 🕯️',p:1059,nft:1},{n:'Cookie Heart NFT 🍫',p:1069,nft:1},
+  {n:'Crystal Ball NFT 🔮',p:1180,nft:1},{n:'Mad Pumpkin NFT 🎃',p:1278,nft:1},{n:'Cupcake NFT 🧁',p:1372,nft:1},
+  {n:'UFC Strike NFT 🥊',p:1487,nft:1},{n:'Diamond Spider NFT 🕷️',p:1637,nft:1},{n:'Sky Stilettos NFT 👠',p:1782,nft:1},
+  {n:'Heart Locket NFT 💛',p:2200,nft:1},{n:'Trapped Heart NFT 💔',p:2387,nft:1},{n:'Dove NFT 🕊️',p:2541,nft:1},
+  {n:'Pink Bear NFT 🧸',p:2874,nft:1},{n:'Signet Ring NFT 💍',p:2973,nft:1},{n:'Ring Box NFT 💍',p:3040,nft:1},
+  {n:'Neko Helmet NFT 🐱',p:3287,nft:1},{n:'Vintage Cigar NFT 🚬',p:3357,nft:1},{n:'Genie Lamp NFT 🪔',p:3407,nft:1},
+  {n:'Voodoo Doll NFT 🪆',p:3552,nft:1},{n:'Kissed Frog NFT 💋',p:4047,nft:1},{n:'Swiss Watch NFT ⌚️',p:5188,nft:1},
+  {n:'Diamond Ring NFT 💎',p:5715,nft:1},{n:'Low Rider NFT 🚗',p:6091,nft:1},{n:'Oscar NFT 🏆',p:6320,nft:1},
+  {n:'Perfume Bottle NFT 🧴',p:7889,nft:1},{n:'Astral Shard NFT 🔮',p:9471,nft:1},{n:'Midas Glove NFT 🖐️',p:10535,nft:1},
+  {n:'Electric Skull NFT 💀',p:10663,nft:1},{n:'Ion Gem NFT 💠',p:11274,nft:1},{n:'Ion Bracelet NFT 💫',p:11355,nft:1},
+  {n:'Vintage Bag NFT 👜',p:11900,nft:1},{n:'Pre-Market Bear NFT 🐻',p:19727,nft:1},{n:'Scared Cat NFT 🐈‍⬛',p:25459,nft:1}
 ];
+const CASES=[
+  {n:'Старт 📦',p:25,d:[{n:'10 ⭐️',p:10,w:50,s:1},{n:'Мишка 🧸',p:15,w:30},{n:'Роза 🌹',p:25,w:14},{n:'Торт 🎂',p:50,w:6}]},
+  {n:'Романтик 💝',p:50,d:[{n:'Роза 🌹',p:25,w:52},{n:'Торт 🎂',p:50,w:30},{n:'Кубок 🏆',p:100,w:16},{n:'Ice Cream NFT 🍦',p:440,w:2,nft:1}]},
+  {n:'Первый NFT 🌟',p:150,d:[{n:'Торт 🎂',p:50,w:45},{n:'Кубок 🏆',p:100,w:35},{n:'Ice Cream NFT 🍦',p:440,w:12,nft:1},{n:'Desk Calendar NFT 📅',p:533,w:8,nft:1}]},
+  {n:'Охота на редкие 🎯',p:650,d:[{n:'Jester Hat NFT 🃏',p:500,w:42,nft:1},{n:'Witch Hat NFT 🧙‍♀️',p:625,w:33,nft:1},{n:'Toy Bear NFT 🧸',p:732,w:18,nft:1},{n:'Crystal Ball NFT 🔮',p:1180,w:7,nft:1}]},
+  {n:'VIP Мажор 👑',p:2500,d:[{n:'Sky Stilettos NFT 👠',p:1782,w:48,nft:1},{n:'Signet Ring NFT 💍',p:2973,w:32,nft:1},{n:'Genie Lamp NFT 🪔',p:3407,w:15,nft:1},{n:'Diamond Ring NFT 💎',p:5715,w:5,nft:1}]}
+];
+function addGiftToInv(g){let cd=(g.nft && starsLockUntil>Date.now())?starsLockUntil:0;inv.push({n:g.n,p:g.p,nft:!!g.nft,cd:cd});}
+function fmtCd(ts){let diff=ts-Date.now();if(diff<=0)return '';let d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000);return '🔒 КД '+d+'д '+h+'ч';}
 function upd(){
   document.getElementById('bal').innerText=Math.floor(bal);
   document.getElementById('wg').innerText=Math.floor(wg);
   let l=wg>=5000?6:wg>=1000?5:wg>=300?4:wg>=100?3:wg>=30?2:1;
   document.getElementById('lvl').innerText='LVL '+l;
   document.getElementById('rk').innerText='LVL '+l;
-  document.getElementById('inv').innerHTML=inv.map((x,i)=>'<div class="row"><span>'+x.n+' ('+x.p+'⭐️)</span><button onclick="sell('+i+')">Продать +'+Math.floor(x.p*0.85)+'⭐️</button></div>').join('');
+  document.getElementById('depTag').innerText=starsLockUntil>Date.now()?'Stars (КД 21д)':'TON (без КД)';
+  document.getElementById('depTag').style.color=starsLockUntil>Date.now()?'#FFB800':'#00E676';
+  document.getElementById('inv').innerHTML=inv.length?inv.map((x,i)=>{
+    let locked=x.nft && x.cd>Date.now();
+    let wBtn=locked?'<button class="sm-btn lock" onclick="alert(\'Этот NFT выигран с депозита Stars. Вывод откроется через 21 день (защита от возврата звёзд). Продать за 85% можно прямо сейчас!\')">'+fmtCd(x.cd)+'</button>':'<button class="sm-btn grn" onclick="withdrawInv('+i+')">Вывести</button>';
+    return '<div class="row"><div><b>'+x.n+'</b><div style="font-size:11px;color:#FFB800">'+x.p+' ⭐️</div></div><div style="display:flex;gap:6px">'+wBtn+'<button class="sm-btn" onclick="sell('+i+')">+'+Math.floor(x.p*0.85)+'⭐️</button></div></div>';
+  }).join(''):'<div style="color:#8A94A6;font-size:13px;text-align:center;padding:12px">Инвентарь пуст</div>';
+  document.getElementById('tList').innerHTML=TASKS.map(t=>'<div class="row"><span>'+t.t+' (<b>+'+t.a+' ⭐️</b>)</span><button class="sm-btn '+(claimedTasks[t.id]?'':'blu')+'" '+(claimedTasks[t.id]?'disabled':'')+' onclick="claimTask(\''+t.id+'\','+t.a+')">'+(claimedTasks[t.id]?'✅ Получено':'Забрать')+'</button></div>').join('');
 }
-function sell(i){bal+=Math.floor(inv[i].p*0.85);inv.splice(i,1);upd();}
-function tab(t,el){
-  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('act'));
-  document.getElementById('p-'+t).classList.add('act');
-  document.querySelectorAll('.nav div').forEach(d=>d.classList.remove('act'));
-  el.classList.add('act');
-}
-function mode(m){
-  document.getElementById('bAll').classList.toggle('act',m==='all');
-  document.getElementById('bFr').classList.toggle('act',m==='fr');
-  document.getElementById('g-all').style.display=m==='all'?'grid':'none';
-  document.getElementById('g-fr').style.display=m==='fr'?'grid':'none';
-}
-function openG(g){
-  document.getElementById('lobby').style.display='none';
-  ['mines','crash','cases','upg','wheel'].forEach(x=>document.getElementById('s-'+x).style.display=x===g?'block':'none');
-  if(g==='mines')drawB();if(g==='cases')drawC();if(g==='upg')initU();
-}
-function back(){
-  document.getElementById('lobby').style.display='block';
-  ['mines','crash','cases','upg','wheel'].forEach(x=>document.getElementById('s-'+x).style.display='none');
-}
+function depStars(a){bal+=a;starsLockUntil=Date.now()+21*86400000;upd();alert('Зачислено +'+a+' ⭐️! На выигранные NFT действует КД 21 день.');}
+function depTon(a){bal+=a;starsLockUntil=0;upd();alert('Зачислено +'+a+' ⭐️ через TON! Вывод NFT открыт без КД.');}
+function claimTask(id,a){if(claimedTasks[id])return;claimedTasks[id]=1;localStorage.setItem('gr_tasks',JSON.stringify(claimedTasks));bal+=a;upd();alert('Бонус +'+a+' ⭐️ зачислен!');}
+function sell(i){let g=Math.floor(inv[i].p*0.85);bal+=g;inv.splice(i,1);upd();alert('Продано за '+g+' ⭐️!');}
+function withdrawInv(i){let it=inv[i];if(it.nft&&it.cd>Date.now())return;inv.splice(i,1);upd();alert(it.nft?'Заявка на вывод NFT «'+it.n+'» отправлена админу!':'Обычный подарок «'+it.n+'» отправлен в Telegram!');}
+function tab(t,el){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('act'));document.getElementById('p-'+t).classList.add('act');document.querySelectorAll('.nav div').forEach(d=>d.classList.remove('act'));el.classList.add('act');}
+function mode(m){document.getElementById('bAll').classList.toggle('act',m==='all');document.getElementById('bFr').classList.toggle('act',m==='fr');document.getElementById('g-all').style.display=m==='all'?'grid':'none';document.getElementById('g-fr').style.display=m==='fr'?'grid':'none';}
+function openG(g){document.getElementById('lobby').style.display='none';['mines','crash','cases','upg','wheel'].forEach(x=>document.getElementById('s-'+x).style.display=x===g?'block':'none');if(g==='mines')drawB();if(g==='cases')drawC();if(g==='upg')initU();if(g==='wheel')renderWheel();}
+function back(){document.getElementById('lobby').style.display='block';['mines','crash','cases','upg','wheel'].forEach(x=>document.getElementById('s-'+x).style.display='none');}
 let sz=5,mPlay=false,mines=[],safe=0,mult=1,bet=10;
 function setSz(s){if(!mPlay){sz=s;drawB();}}
-function drawB(){
-  const b=document.getElementById('brd');b.style.gridTemplateColumns='repeat('+sz+',1fr)';b.innerHTML='';
-  for(let i=0;i<sz*sz;i++){const c=document.createElement('div');c.className='cell';c.onclick=()=>hit(i,c);b.appendChild(c);}
-}
-function mAct(){
-  const btn=document.getElementById('mBtn');
-  if(!mPlay){
-    bet=Math.min(3000,Math.max(10,+document.getElementById('mBet').value||10));
-    if(bal<bet)return alert('Мало звёзд');
-    bal-=bet;wg+=bet;upd();mPlay=true;safe=0;mult=0.88;mines=[];
-    let bm=Math.min(sz*sz-1,Math.max(1,+document.getElementById('bCnt').value||3));
-    while(mines.length<bm){let r=Math.floor(Math.random()*sz*sz);if(!mines.includes(r))mines.push(r);}
-    drawB();btn.classList.add('gold');btn.innerText='ВЫБЕРИ КЛЕТКУ';
-  }else if(safe>0){
-    let lim=bet<50?Math.min(500,bet*50):bet<250?Math.min(2500,bet*20):bet<1000?Math.min(7500,bet*10):Math.min(15000,bet*5);
-    let w=Math.min(Math.floor(bet*mult),lim);bal+=w;upd();mPlay=false;btn.classList.remove('gold');btn.innerText='ИГРАТЬ';
-    alert('Выигрыш: '+w+' ⭐️!');
-  }
-}
-function hit(i,c){
-  if(!mPlay||c.classList.contains('ok'))return;
-  if(mines.includes(i)){
-    c.classList.add('boom');c.innerText='💣';mPlay=false;
-    document.getElementById('mBtn').classList.remove('gold');document.getElementById('mBtn').innerText='ИГРАТЬ';
-  }else{
-    mult*=(sz*sz-safe)/(sz*sz-mines.length-safe);safe++;c.classList.add('ok');c.innerText='💎';
-    document.getElementById('mBtn').innerText='ЗАБРАТЬ '+Math.floor(bet*mult)+' ⭐️';
-  }
-}
+function drawB(){const b=document.getElementById('brd');b.style.gridTemplateColumns='repeat('+sz+',1fr)';b.innerHTML='';for(let i=0;i<sz*sz;i++){const c=document.createElement('div');c.className='cell';c.onclick=()=>hit(i,c);b.appendChild(c);}}
+function mAct(){const btn=document.getElementById('mBtn');if(!mPlay){bet=Math.min(3000,Math.max(10,+document.getElementById('mBet').value||10));if(bal<bet)return alert('Мало звёзд');bal-=bet;wg+=bet;upd();mPlay=true;safe=0;mult=0.88;mines=[];let bm=Math.min(sz*sz-1,Math.max(1,+document.getElementById('bCnt').value||3));while(mines.length<bm){let r=Math.floor(Math.random()*sz*sz);if(!mines.includes(r))mines.push(r);}drawB();btn.classList.add('gold');btn.innerText='ВЫБЕРИ КЛЕТКУ';}else if(safe>0){let lim=bet<50?Math.min(500,bet*50):bet<250?Math.min(2500,bet*20):bet<1000?Math.min(7500,bet*10):Math.min(15000,bet*5);let w=Math.min(Math.floor(bet*mult),lim);bal+=w;upd();mPlay=false;btn.classList.remove('gold');btn.innerText='ИГРАТЬ';alert('Выигрыш: '+w+' ⭐️!');}}
+function hit(i,c){if(!mPlay||c.classList.contains('ok'))return;if(mines.includes(i)){c.classList.add('boom');c.innerText='💣';mPlay=false;document.getElementById('mBtn').classList.remove('gold');document.getElementById('mBtn').innerText='ИГРАТЬ';}else{mult*=(sz*sz-safe)/(sz*sz-mines.length-safe);safe++;c.classList.add('ok');c.innerText='💎';document.getElementById('mBtn').innerText='ЗАБРАТЬ '+Math.floor(bet*mult)+' ⭐️';}}
 let cRun=false,cT=null,cCur=1,cEnd=1,cB=25;
-function cAct(){
-  const btn=document.getElementById('cBtn');
-  if(!cRun){
-    cB=Math.min(3000,Math.max(10,+document.getElementById('cBet').value||25));
-    if(bal<cB)return alert('Мало звёзд');
-    bal-=cB;wg+=cB;upd();cRun=true;cCur=1;
-    let r=Math.random();cEnd=r<0.25?1:Math.min(100,+(0.75/(1-r)).toFixed(2));
-    btn.classList.add('gold');
-    cT=setInterval(()=>{
-      if(cCur>=cEnd){clearInterval(cT);cRun=false;document.getElementById('cMult').innerText=cEnd+'x';document.getElementById('cSt').innerText='💥 Взрыв!';btn.classList.remove('gold');btn.innerText='ПОСТАВИТЬ';return;}
-      cCur=+(cCur+0.04*cCur).toFixed(2);document.getElementById('cMult').innerText=cCur+'x';btn.innerText='ЗАБРАТЬ '+Math.floor(cB*cCur)+' ⭐️';
-    },100);
-  }else{
-    clearInterval(cT);cRun=false;let w=Math.min(15000,Math.floor(cB*cCur));bal+=w;upd();
-    btn.classList.remove('gold');btn.innerText='ПОСТАВИТЬ';alert('Забрал '+w+' ⭐️!');
-  }
-}
-function drawC(){document.getElementById('cList').innerHTML=CASES.map((c,i)=>'<div class="card" onclick="openC('+i+')"><b>'+c.n+'</b><div style="color:#FFB800;margin-top:6px">'+c.p+' ⭐️</div></div>').join('');}
-function openC(i){
-  const c=CASES[i];if(bal<c.p)return alert('Мало звёзд');
-  bal-=c.p;wg+=c.p;
-  let tot=c.d.reduce((s,x)=>s+x.w,0),r=Math.random()*tot,d=c.d[0];
-  for(let x of c.d){if(r<x.w){d=x;break;}r-=x.w;}
-  if(d.s)bal+=d.p;else inv.push({n:d.n,p:d.p});
-  upd();alert('Выпало: '+d.n);
-}
-function initU(){
-  document.getElementById('uFrom').innerHTML=GIFTS.slice(0,-1).map((g,i)=>'<option value="'+i+'">'+g.n+' ('+g.p+'⭐️)</option>').join('');
-  document.getElementById('uTo').innerHTML=GIFTS.slice(1).map((g,i)=>'<option value="'+(i+1)+'">'+g.n+' ('+g.p+'⭐️)</option>').join('');
-  uCalc();
-}
-function uCalc(){
-  let f=GIFTS[document.getElementById('uFrom').value],t=GIFTS[document.getElementById('uTo').value];
-  let ch=Math.min(75,Math.max(1,(f.p/t.p)*85));
-  document.getElementById('uCh').innerText='Шанс: '+ch.toFixed(1)+'%';return{f,t,ch};
-}
-function uRun(){
-  let{f,t,ch}=uCalc();if(t.p<=f.p)return alert('Цель должна быть дороже!');
-  if(bal<f.p)return alert('Мало звёзд');bal-=f.p;wg+=f.p;
-  if(Math.random()*100<=ch){inv.push({n:t.n,p:t.p});alert('🔥 Успех! Выпал '+t.n);}else alert('💥 Не повезло!');
-  upd();
-}
-let deg=0;
-function wSpin(b){
-  if(bal<b)return alert('Мало звёзд');bal-=b;wg+=b;upd();
-  deg+=1440+Math.random()*360;document.getElementById('whl').style.transform='rotate('+deg+'deg)';
-  setTimeout(()=>{bal+=Math.floor(b*1.76);upd();alert('🎡 Выигрыш '+Math.floor(b*1.76)+' ⭐️!');},3100);
-}
-document.getElementById('mList').innerHTML=GIFTS.map((g,i)=>'<div class="card"><b>'+g.n+'</b><div style="color:#FFB800;margin-top:6px">'+g.p+' ⭐️</div><button class="btn" style="padding:8px;font-size:12px" onclick="buyM('+i+')">Вывести</button></div>').join('');
-function buyM(i){if(bal<GIFTS[i].p)return alert('Мало звёзд');bal-=GIFTS[i].p;upd();alert('Заказ на '+GIFTS[i].n+' оформлен!');}
-function bonus(a){bal+=a;upd();alert('+'+a+' ⭐️!');}
+function cAct(){const btn=document.getElementById('cBtn');if(!cRun){cB=Math.min(3000,Math.max(10,+document.getElementById('cBet').value||25));if(bal<cB)return alert('Мало звёзд');bal-=cB;wg+=cB;upd();cRun=true;cCur=1;let r=Math.random();cEnd=r<0.25?1:Math.min(100,+(0.75/(1-r)).toFixed(2));btn.classList.add('gold');cT=setInterval(()=>{if(cCur>=cEnd){clearInterval(cT);cRun=false;document.getElementById('cMult').innerText=cEnd+'x';document.getElementById('cSt').innerText='💥 Взрыв!';btn.classList.remove('gold');btn.innerText='ПОСТАВИТЬ';return;}cCur=+(cCur+0.04*cCur).toFixed(2);document.getElementById('cMult').innerText=cCur+'x';btn.innerText='ЗАБРАТЬ '+Math.floor(cB*cCur)+' ⭐️';},100);}else{clearInterval(cT);cRun=false;let w=Math.min(15000,Math.floor(cB*cCur));bal+=w;upd();btn.classList.remove('gold');btn.innerText='ПОСТАВИТЬ';alert('Забрал '+w+' ⭐️!');}}
+let curCase=0,caseSpinning=false;
+function drawC(){document.getElementById('cList').style.display='grid';document.getElementById('cDetail').style.display='none';document.getElementById('cList').innerHTML=CASES.map((c,i)=>'<div class="card" onclick="viewCase('+i+')"><div style="font-size:34px">📦</div><b>'+c.n+'</b><div style="color:#FFB800;margin-top:6px">'+c.p+' ⭐️</div></div>').join('');}
+function viewCase(i){curCase=i;const c=CASES[i];document.getElementById('cList').style.display='none';document.getElementById('cDetail').style.display='block';document.getElementById('cdName').innerText=c.n+' ('+c.p+' ⭐️)';document.getElementById('cdOpenBtn').innerText='ОТКРЫТЬ ЗА '+c.p+' ⭐️';document.getElementById('cdDrops').innerHTML=c.d.map(x=>'<div class="card" style="padding:10px"><b>'+x.n+'</b><div style="color:#FFB800;font-size:12px">'+x.p+' ⭐️</div></div>').join('');const tr=document.getElementById('rTrack');tr.style.transition='none';tr.style.transform='translateX(0)';tr.innerHTML=c.d.concat(c.d).map(x=>'<div class="r-item"><b>'+x.n+'</b><span style="color:#FFB800">'+x.p+'⭐️</span></div>').join('');}
+function closeCaseDetail(){if(!caseSpinning)drawC();}
+function spinCase(){if(caseSpinning)return;const c=CASES[curCase];if(bal<c.p)return alert('Мало звёзд');bal-=c.p;wg+=c.p;upd();caseSpinning=true;let tot=c.d.reduce((s,x)=>s+x.w,0),r=Math.random()*tot,win=c.d;for(let x of c.d){if(r<x.w){win=x;break;}r-=x.w;}const tr=document.getElementById('rTrack');tr.style.transition='none';tr.style.transform='translateX(0)';let items=[];for(let k=0;k<30;k++)items.push(k===24?win:c.d[Math.floor(Math.random()*c.d.length)]);tr.innerHTML=items.map(x=>'<div class="r-item"><b>'+x.n+'</b><span style="color:#FFB800">'+x.p+'⭐️</span></div>').join('');setTimeout(()=>{tr.style.transition='transform 3.2s cubic-bezier(.12,.85,.22,1)';tr.style.transform='translateX(-'+(24*92+42)+'px)';},40);setTimeout(()=>{caseSpinning=false;if(win.s)bal+=win.p;else addGiftToInv(win);upd();alert('🎁 Выпало: '+win.n+'!');},3400);}
+let upgSpinning=false,upgDeg=0;
+function initU(){document.getElementById('uFrom').innerHTML=GIFTS.slice(0,-1).map((g,i)=>'<option value="'+i+'">'+g.n+' ('+g.p+'⭐️)</option>').join('');uCalc(true);}
+function uCalc(resetTo){const fIdx=+document.getElementById('uFrom').value,f=GIFTS[fIdx];if(resetTo){const valid=GIFTS.map((g,i)=>({g,i})).filter(x=>x.g.p>f.p&&x.g.p<=f.p*25);document.getElementById('uTo').innerHTML=valid.map(x=>'<option value="'+x.i+'">'+x.g.n+' ('+x.g.p+'⭐️)</option>').join('');}const t=GIFTS[+document.getElementById('uTo').value];let ch=Math.min(75,Math.max(2,(f.p/t.p)*85));document.getElementById('uCh').innerText=ch.toFixed(1)+'%';document.getElementById('uRing').style.background='conic-gradient(#00E676 0% '+ch+'%, #232A3D '+ch+'% 100%)';return{f,t,ch};}
+function uRun(){if(upgSpinning)return;const{f,t,ch}=uCalc(false);if(bal<f.p)return alert('Мало звёзд');bal-=f.p;wg+=f.p;upd();upgSpinning=true;const win=Math.random()*100<=ch;const winAngle=(ch/100)*360;const target=win?(Math.random()*(winAngle-10)+5):(winAngle+10+Math.random()*(350-winAngle));upgDeg+=1440+(target-(upgDeg%360)+360)%360;document.getElementById('uNeedle').style.transform='rotate('+upgDeg+'deg)';setTimeout(()=>{upgSpinning=false;if(win){addGiftToInv(t);upd();alert('🔥 УСПЕХ! Получен '+t.n);}else alert('💥 Не повезло! Стрелка мимо.');},3000);}
+let wBots=[{n:'@alex_ton',ava:'🦊',bet:80,col:'#2AABEE'},{n:'@maria_star',ava:'🐱',bet:70,col:'#FF6B00'}],wDeg=0,wSpinning=false;
+function renderWheel(myB){let list=[...wBots];if(myB)list.push({n:myName,ava:myAva,bet:myB,col:'#9B51E0'});let tot=list.reduce((s,x)=>s+x.bet,0);document.getElementById('wBank').innerText=tot+' ⭐️';let acc=0,grad=[],avas='';list.forEach(p=>{let pct=(p.bet/tot)100,mid=acc+pct/2;grad.push(p.col+' '+acc+'% '+(acc+pct)+'%');let rad=(mid3.6-90)Math.PI/180;let x=50+33Math.cos(rad),y=50+33*Math.sin(rad);avas+=''+p.ava+'';acc+=pct;});const whl=document.getElementById('whl');whl.style.background='conic-gradient('+grad.join(',')+')';whl.innerHTML=avas;document.getElementById('wPlayers').innerHTML=list.map(p=>''+p.ava+' '+p.n+''+p.bet+' ⭐️ ('+((p.bet/tot)*100).toFixed(1)+'%)').join('');return{list,tot};}
+function wSpin(){if(wSpinning)return;let b=Math.min(3000,Math.max(10,+document.getElementById('wBet').value||50));if(bal<b)return alert('Мало звёзд');bal-=b;wg+=b;upd();wSpinning=true;const{list,tot}=renderWheel(b);let r=Math.random()tot,acc=0,winP=list,winMid=0;for(let p of list){let pct=(p.bet/tot)100;if(r<p.bet){winP=p;winMid=acc+pct/2;break;}r-=p.bet;acc+=pct;}wDeg+=1440+(360-winMid3.6-(wDeg%360)+360)%360;document.getElementById('whl').style.transform='rotate('+wDeg+'deg)';setTimeout(()=>{wSpinning=false;let prize=Math.floor(tot0.88);if(winP.n===myName){bal+=prize;upd();alert('🎉 Победил '+winP.n+'! Выигрыш: '+prize+' ⭐️');}else alert('Победил '+winP.n+' ('+prize+' ⭐️)');renderWheel();},3700);}
+document.getElementById('mList').innerHTML=GIFTS.map((g,i)=>''+g.n+''+g.p+' ⭐️В инвентарь').join('');
+function buyM(i){if(bal<GIFTS[i].p)return alert('Мало звёзд');bal-=GIFTS[i].p;addGiftToInv(GIFTS[i]);upd();alert('Подарок «'+GIFTS[i].n+'» добавлен в ваш инвентарь!');}
 drawB();upd();
-</script>
-</body>
-</html>
