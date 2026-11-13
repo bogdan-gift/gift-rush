@@ -63,13 +63,12 @@ input,select{background:#0B0E17;color:#fff;border:1px solid #232A3D;padding:9px;
 <div class="modal" id="rulesM" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="m-box">
     <h3 style="margin-bottom:10px;color:#FFB800">📖 Правила вывода и КД</h3>
-    <p style="margin-bottom:8px">⭐ <b>Пополнение Telegram Stars:</b><br>На все выигранные или купленные <b>NFT-подарки</b> действует обязательный <b>КД (холд) 21 день</b> до вывода в Telegram. Продать подарок за 85% звёзд можно сразу.</p>
+    <p style="margin-bottom:8px">⭐ <b>Пополнение Telegram Stars:</b><br>На все выигранные или купленные <b>NFT-подарки</b> действует обязательный <b>КД (холд) 21 день</b> до вывода в Telegram. Продать за 85% звёзд можно сразу.</p>
     <p style="margin-bottom:8px">💎 <b>Пополнение через TON:</b><br>Никакого КД нет — <b>вывод NFT доступен мгновенно</b>.</p>
     <p style="margin-bottom:12px">🧸 <b>Обычные подарки (не-NFT):</b><br>Отправляются в Telegram сразу без ожидания.</p>
     <button class="btn" onclick="document.getElementById('rulesM').classList.remove('open')">ПОНЯТНО</button>
   </div>
-</div>
-<div id="p-games" class="pg act">
+</div><div id="p-games" class="pg act">
   <div id="lobby">
     <div class="seg">
       <button class="act" id="bAll" onclick="mode('all')">🌍 Все режимы</button>
@@ -91,21 +90,14 @@ input,select{background:#0B0E17;color:#fff;border:1px solid #232A3D;padding:9px;
   </div>
   <div id="s-mines" style="display:none">
     <button class="back" onclick="back()">← Назад</button>
-    <div class="row">
-      <span>Сетка: <button class="sm-btn" onclick="setSz(3)">3×3</button> <button class="sm-btn" onclick="setSz(5)">5×5</button> <button class="sm-btn" onclick="setSz(7)">7×7</button></span>
-      <span>Бомб: <input id="bCnt" type="number" value="3" min="1" max="48" style="width:55px"></span>
-    </div>
+    <div class="row"><span>Сетка: <button class="sm-btn" onclick="setSz(3)">3×3</button> <button class="sm-btn" onclick="setSz(5)">5×5</button> <button class="sm-btn" onclick="setSz(7)">7×7</button></span><span>Бомб: <input id="bCnt" type="number" value="3" min="1" max="48" style="width:55px"></span></div>
     <div class="board" id="brd"></div>
     <div class="row"><span>Ставка (10-3000):</span><input id="mBet" type="number" value="10" style="width:90px"></div>
     <button class="btn" id="mBtn" onclick="mAct()">ИГРАТЬ</button>
   </div>
   <div id="s-crash" style="display:none">
     <button class="back" onclick="back()">← Назад</button>
-    <div class="card" style="padding:26px">
-      <div style="font-size:38px">🚀</div>
-      <h1 id="cMult" style="color:#FFB800">1.00x</h1>
-      <p id="cSt" style="color:#8A94A6;font-size:12px">Готов к взлёту</p>
-    </div>
+    <div class="card" style="padding:26px"><div style="font-size:38px">🚀</div><h1 id="cMult" style="color:#FFB800">1.00x</h1><p id="cSt" style="color:#8A94A6;font-size:12px">Готов к взлёту</p></div>
     <div class="row" style="margin-top:10px"><span>Ставка:</span><input id="cBet" type="number" value="25" style="width:90px"></div>
     <button class="btn" id="cBtn" onclick="cAct()">ПОСТАВИТЬ</button>
   </div>
@@ -114,8 +106,7 @@ input,select{background:#0B0E17;color:#fff;border:1px solid #232A3D;padding:9px;
     <div id="cList" class="grid"></div>
     <div id="cDetail" style="display:none">
       <div class="card" style="margin-bottom:8px">
-        <div style="font-size:42px">📦</div>
-        <h3 id="cdName">Кейс</h3>
+        <div style="font-size:42px">📦</div><h3 id="cdName">Кейс</h3>
         <div class="r-box"><div class="r-pin"></div><div class="r-track" id="rTrack"></div></div>
         <button class="btn" id="cdOpenBtn" onclick="spinCase()">ОТКРЫТЬ КЕЙС</button>
         <button class="sm-btn" style="margin-top:8px;width:100%" onclick="closeCaseDetail()">К списку кейсов</button>
@@ -128,16 +119,8 @@ input,select{background:#0B0E17;color:#fff;border:1px solid #232A3D;padding:9px;
     <button class="back" onclick="back()">← Назад</button>
     <div class="card">
       <p style="color:#8A94A6;font-size:12px">Выбери подарок и цель (макс. ×25)</p>
-      <div style="margin:10px 0;display:flex;flex-direction:column;gap:8px">
-        <select id="uFrom" onchange="uCalc(true)"></select>
-        <div>⬇️</div>
-        <select id="uTo" onchange="uCalc(false)"></select>
-      </div>
-      <div class="u-ring" id="uRing">
-        <div class="u-needle" id="uNeedle"></div>
-        <span style="font-size:11px;color:#8A94A6">ШАНС</span>
-        <b id="uCh" style="font-size:22px;color:#FFB800">50.0%</b>
-      </div>
+      <div style="margin:10px 0;display:flex;flex-direction:column;gap:8px"><select id="uFrom" onchange="uCalc(true)"></select><div>⬇️</div><select id="uTo" onchange="uCalc(false)"></select></div>
+      <div class="u-ring" id="uRing"><div class="u-needle" id="uNeedle"></div><span style="font-size:11px;color:#8A94A6">ШАНС</span><b id="uCh" style="font-size:22px;color:#FFB800">50.0%</b></div>
       <button class="btn" id="uBtn" onclick="uRun()">УЛУЧШИТЬ ПОДАРОК</button>
     </div>
   </div>
@@ -151,14 +134,8 @@ input,select{background:#0B0E17;color:#fff;border:1px solid #232A3D;padding:9px;
     <div id="wPlayers"></div>
   </div>
 </div>
-<div id="p-mkt" class="pg">
-  <h3 style="margin-bottom:10px">🛒 Маркет по флору</h3>
-  <div class="grid" id="mList"></div>
-</div>
-<div id="p-tsk" class="pg">
-  <h3 style="margin-bottom:10px">📋 Задания (1 раз на аккаунт)</h3>
-  <div id="tList"></div>
-</div>
+<div id="p-mkt" class="pg"><h3 style="margin-bottom:10px">🛒 Маркет по флору</h3><div class="grid" id="mList"></div></div>
+<div id="p-tsk" class="pg"><h3 style="margin-bottom:10px">📋 Задания (1 раз на аккаунт)</h3><div id="tList"></div></div>
 <div id="p-prf" class="pg">
   <div class="card">
     <h3 id="uName">Игрок Gift Rush</h3>
@@ -177,8 +154,7 @@ input,select{background:#0B0E17;color:#fff;border:1px solid #232A3D;padding:9px;
   <div onclick="tab('mkt',this)">🛒<br>Маркет</div>
   <div onclick="tab('tsk',this)">📋<br>Задания</div>
   <div onclick="tab('prf',this)">👤<br>Профиль</div>
-</div>
-<script>
+</div><script>
 const tg=window.Telegram?.WebApp;
 let myName='Ты',myAva='😎';
 if(tg){tg.expand();tg.ready();if(tg.initDataUnsafe?.user){myName=tg.initDataUnsafe.user.first_name;myAva=myName.toUpperCase();document.getElementById('uName').innerText=myName;}}
@@ -234,7 +210,7 @@ function upd(){
   document.getElementById('depTag').style.color=starsLockUntil>Date.now()?'#FFB800':'#00E676';
   document.getElementById('inv').innerHTML=inv.length?inv.map((x,i)=>{
     let locked=x.nft && x.cd>Date.now();
-    let wBtn=locked?'<button class="sm-btn lock" onclick="alert(\'Этот NFT выигран с депозита Stars. Вывод откроется через 21 день (защита от возврата звёзд). Продать за 85% можно прямо сейчас!\')">'+fmtCd(x.cd)+'</button>':'<button class="sm-btn grn" onclick="withdrawInv('+i+')">Вывести</button>';
+    let wBtn=locked?'<button class="sm-btn lock" onclick="alert(\'КД 21 день на вывод NFT после депозита Stars. Продать за 85% можно сразу!\')">'+fmtCd(x.cd)+'</button>':'<button class="sm-btn grn" onclick="withdrawInv('+i+')">Вывести</button>';
     return '<div class="row"><div><b>'+x.n+'</b><div style="font-size:11px;color:#FFB800">'+x.p+' ⭐️</div></div><div style="display:flex;gap:6px">'+wBtn+'<button class="sm-btn" onclick="sell('+i+')">+'+Math.floor(x.p*0.85)+'⭐️</button></div></div>';
   }).join(''):'<div style="color:#8A94A6;font-size:13px;text-align:center;padding:12px">Инвентарь пуст</div>';
   document.getElementById('tList').innerHTML=TASKS.map(t=>'<div class="row"><span>'+t.t+' (<b>+'+t.a+' ⭐️</b>)</span><button class="sm-btn '+(claimedTasks[t.id]?'':'blu')+'" '+(claimedTasks[t.id]?'disabled':'')+' onclick="claimTask(\''+t.id+'\','+t.a+')">'+(claimedTasks[t.id]?'✅ Получено':'Забрать')+'</button></div>').join('');
@@ -254,19 +230,21 @@ function drawB(){const b=document.getElementById('brd');b.style.gridTemplateColu
 function mAct(){const btn=document.getElementById('mBtn');if(!mPlay){bet=Math.min(3000,Math.max(10,+document.getElementById('mBet').value||10));if(bal<bet)return alert('Мало звёзд');bal-=bet;wg+=bet;upd();mPlay=true;safe=0;mult=0.88;mines=[];let bm=Math.min(sz*sz-1,Math.max(1,+document.getElementById('bCnt').value||3));while(mines.length<bm){let r=Math.floor(Math.random()*sz*sz);if(!mines.includes(r))mines.push(r);}drawB();btn.classList.add('gold');btn.innerText='ВЫБЕРИ КЛЕТКУ';}else if(safe>0){let lim=bet<50?Math.min(500,bet*50):bet<250?Math.min(2500,bet*20):bet<1000?Math.min(7500,bet*10):Math.min(15000,bet*5);let w=Math.min(Math.floor(bet*mult),lim);bal+=w;upd();mPlay=false;btn.classList.remove('gold');btn.innerText='ИГРАТЬ';alert('Выигрыш: '+w+' ⭐️!');}}
 function hit(i,c){if(!mPlay||c.classList.contains('ok'))return;if(mines.includes(i)){c.classList.add('boom');c.innerText='💣';mPlay=false;document.getElementById('mBtn').classList.remove('gold');document.getElementById('mBtn').innerText='ИГРАТЬ';}else{mult*=(sz*sz-safe)/(sz*sz-mines.length-safe);safe++;c.classList.add('ok');c.innerText='💎';document.getElementById('mBtn').innerText='ЗАБРАТЬ '+Math.floor(bet*mult)+' ⭐️';}}
 let cRun=false,cT=null,cCur=1,cEnd=1,cB=25;
-function cAct(){const btn=document.getElementById('cBtn');if(!cRun){cB=Math.min(3000,Math.max(10,+document.getElementById('cBet').value||25));if(bal<cB)return alert('Мало звёзд');bal-=cB;wg+=cB;upd();cRun=true;cCur=1;let r=Math.random();cEnd=r<0.25?1:Math.min(100,+(0.75/(1-r)).toFixed(2));btn.classList.add('gold');cT=setInterval(()=>{if(cCur>=cEnd){clearInterval(cT);cRun=false;document.getElementById('cMult').innerText=cEnd+'x';document.getElementById('cSt').innerText='💥 Взрыв!';btn.classList.remove('gold');btn.innerText='ПОСТАВИТЬ';return;}cCur=+(cCur+0.04*cCur).toFixed(2);document.getElementById('cMult').innerText=cCur+'x';btn.innerText='ЗАБРАТЬ '+Math.floor(cB*cCur)+' ⭐️';},100);}else{clearInterval(cT);cRun=false;let w=Math.min(15000,Math.floor(cB*cCur));bal+=w;upd();btn.classList.remove('gold');btn.innerText='ПОСТАВИТЬ';alert('Забрал '+w+' ⭐️!');}}
+function cAct(){const btn=document.getElementById('cBtn');if(!cRun){cB=Math.min(3000,Math.max(10,+document.getElementById('cBet').value||25));if(bal<cB)return alert('Мало звёзд');bal-=cB;wg+=cB;upd();cRun=true;cCur=1;let r=Math.random();cEnd=r<0.25?1:Math.min(100,+(0.75/(1-r)).toFixed(2));btn.classList.add('gold');cT=setInterval(()=>{if(cCur>=cEnd){clearInterval(cT);cRun=false;document.getElementById('cMult').innerText=cEnd+'x';document.getElementById('cSt').innerText='💥 Взрыв!';btn.classList.remove('gold');btn.innerText='ПОСТАВИТЬ';return;}cCur=+(cCur+0.04cCur).toFixed(2);document.getElementById('cMult').innerText=cCur+'x';btn.innerText='ЗАБРАТЬ '+Math.floor(cBcCur)+' ⭐️';},100);}else{clearInterval(cT);cRun=false;let w=Math.min(15000,Math.floor(cB*cCur));bal+=w;upd();btn.classList.remove('gold');btn.innerText='ПОСТАВИТЬ';alert('Забрал '+w+' ⭐️!');}}
 let curCase=0,caseSpinning=false;
-function drawC(){document.getElementById('cList').style.display='grid';document.getElementById('cDetail').style.display='none';document.getElementById('cList').innerHTML=CASES.map((c,i)=>'<div class="card" onclick="viewCase('+i+')"><div style="font-size:34px">📦</div><b>'+c.n+'</b><div style="color:#FFB800;margin-top:6px">'+c.p+' ⭐️</div></div>').join('');}
-function viewCase(i){curCase=i;const c=CASES[i];document.getElementById('cList').style.display='none';document.getElementById('cDetail').style.display='block';document.getElementById('cdName').innerText=c.n+' ('+c.p+' ⭐️)';document.getElementById('cdOpenBtn').innerText='ОТКРЫТЬ ЗА '+c.p+' ⭐️';document.getElementById('cdDrops').innerHTML=c.d.map(x=>'<div class="card" style="padding:10px"><b>'+x.n+'</b><div style="color:#FFB800;font-size:12px">'+x.p+' ⭐️</div></div>').join('');const tr=document.getElementById('rTrack');tr.style.transition='none';tr.style.transform='translateX(0)';tr.innerHTML=c.d.concat(c.d).map(x=>'<div class="r-item"><b>'+x.n+'</b><span style="color:#FFB800">'+x.p+'⭐️</span></div>').join('');}
+function drawC(){document.getElementById('cList').style.display='grid';document.getElementById('cDetail').style.display='none';document.getElementById('cList').innerHTML=CASES.map((c,i)=>'📦'+c.n+''+c.p+' ⭐️').join('');}
+function viewCase(i){curCase=i;const c=CASES[i];document.getElementById('cList').style.display='none';document.getElementById('cDetail').style.display='block';document.getElementById('cdName').innerText=c.n+' ('+c.p+' ⭐️)';document.getElementById('cdOpenBtn').innerText='ОТКРЫТЬ ЗА '+c.p+' ⭐️';document.getElementById('cdDrops').innerHTML=c.d.map(x=>''+x.n+''+x.p+' ⭐️').join('');const tr=document.getElementById('rTrack');tr.style.transition='none';tr.style.transform='translateX(0)';tr.innerHTML=c.d.concat(c.d).map(x=>''+x.n+''+x.p+'⭐️').join('');}
 function closeCaseDetail(){if(!caseSpinning)drawC();}
-function spinCase(){if(caseSpinning)return;const c=CASES[curCase];if(bal<c.p)return alert('Мало звёзд');bal-=c.p;wg+=c.p;upd();caseSpinning=true;let tot=c.d.reduce((s,x)=>s+x.w,0),r=Math.random()*tot,win=c.d;for(let x of c.d){if(r<x.w){win=x;break;}r-=x.w;}const tr=document.getElementById('rTrack');tr.style.transition='none';tr.style.transform='translateX(0)';let items=[];for(let k=0;k<30;k++)items.push(k===24?win:c.d[Math.floor(Math.random()*c.d.length)]);tr.innerHTML=items.map(x=>'<div class="r-item"><b>'+x.n+'</b><span style="color:#FFB800">'+x.p+'⭐️</span></div>').join('');setTimeout(()=>{tr.style.transition='transform 3.2s cubic-bezier(.12,.85,.22,1)';tr.style.transform='translateX(-'+(24*92+42)+'px)';},40);setTimeout(()=>{caseSpinning=false;if(win.s)bal+=win.p;else addGiftToInv(win);upd();alert('🎁 Выпало: '+win.n+'!');},3400);}
+function spinCase(){if(caseSpinning)return;const c=CASES[curCase];if(bal<c.p)return alert('Мало звёзд');bal-=c.p;wg+=c.p;upd();caseSpinning=true;let tot=c.d.reduce((s,x)=>s+x.w,0),r=Math.random()tot,win=c.d;for(let x of c.d){if(r<x.w){win=x;break;}r-=x.w;}const tr=document.getElementById('rTrack');tr.style.transition='none';tr.style.transform='translateX(0)';let items=[];for(let k=0;k<30;k++)items.push(k===24?win:c.d[Math.floor(Math.random()c.d.length)]);tr.innerHTML=items.map(x=>''+x.n+''+x.p+'⭐️').join('');setTimeout(()=>{tr.style.transition='transform 3.2s cubic-bezier(.12,.85,.22,1)';tr.style.transform='translateX(-'+(2492+42)+'px)';},40);setTimeout(()=>{caseSpinning=false;if(win.s)bal+=win.p;else addGiftToInv(win);upd();alert('🎁 Выпало: '+win.n+'!');},3400);}
 let upgSpinning=false,upgDeg=0;
-function initU(){document.getElementById('uFrom').innerHTML=GIFTS.slice(0,-1).map((g,i)=>'<option value="'+i+'">'+g.n+' ('+g.p+'⭐️)</option>').join('');uCalc(true);}
-function uCalc(resetTo){const fIdx=+document.getElementById('uFrom').value,f=GIFTS[fIdx];if(resetTo){const valid=GIFTS.map((g,i)=>({g,i})).filter(x=>x.g.p>f.p&&x.g.p<=f.p*25);document.getElementById('uTo').innerHTML=valid.map(x=>'<option value="'+x.i+'">'+x.g.n+' ('+x.g.p+'⭐️)</option>').join('');}const t=GIFTS[+document.getElementById('uTo').value];let ch=Math.min(75,Math.max(2,(f.p/t.p)*85));document.getElementById('uCh').innerText=ch.toFixed(1)+'%';document.getElementById('uRing').style.background='conic-gradient(#00E676 0% '+ch+'%, #232A3D '+ch+'% 100%)';return{f,t,ch};}
-function uRun(){if(upgSpinning)return;const{f,t,ch}=uCalc(false);if(bal<f.p)return alert('Мало звёзд');bal-=f.p;wg+=f.p;upd();upgSpinning=true;const win=Math.random()*100<=ch;const winAngle=(ch/100)*360;const target=win?(Math.random()*(winAngle-10)+5):(winAngle+10+Math.random()*(350-winAngle));upgDeg+=1440+(target-(upgDeg%360)+360)%360;document.getElementById('uNeedle').style.transform='rotate('+upgDeg+'deg)';setTimeout(()=>{upgSpinning=false;if(win){addGiftToInv(t);upd();alert('🔥 УСПЕХ! Получен '+t.n);}else alert('💥 Не повезло! Стрелка мимо.');},3000);}
+function initU(){document.getElementById('uFrom').innerHTML=GIFTS.slice(0,-1).map((g,i)=>''+g.n+' ('+g.p+'⭐️)').join('');uCalc(true);}
+function uCalc(resetTo){const fIdx=+document.getElementById('uFrom').value,f=GIFTS[fIdx];if(resetTo){const valid=GIFTS.map((g,i)=>({g,i})).filter(x=>x.g.p>f.p&&x.g.p<=f.p25);document.getElementById('uTo').innerHTML=valid.map(x=>''+x.g.n+' ('+x.g.p+'⭐️)').join('');}const t=GIFTS[+document.getElementById('uTo').value];let ch=Math.min(75,Math.max(2,(f.p/t.p)85));document.getElementById('uCh').innerText=ch.toFixed(1)+'%';document.getElementById('uRing').style.background='conic-gradient(#00E676 0% '+ch+'%, #232A3D '+ch+'% 100%)';return{f,t,ch};}
+function uRun(){if(upgSpinning)return;const{f,t,ch}=uCalc(false);if(bal<f.p)return alert('Мало звёзд');bal-=f.p;wg+=f.p;upd();upgSpinning=true;const win=Math.random()100<=ch;const winAngle=(ch/100)360;const target=win?(Math.random()(winAngle-10)+5):(winAngle+10+Math.random()(350-winAngle));upgDeg+=1440+(target-(upgDeg%360)+360)%360;document.getElementById('uNeedle').style.transform='rotate('+upgDeg+'deg)';setTimeout(()=>{upgSpinning=false;if(win){addGiftToInv(t);upd();alert('🔥 УСПЕХ! Получен '+t.n);}else alert('💥 Не повезло! Стрелка мимо.');},3000);}
 let wBots=[{n:'@alex_ton',ava:'🦊',bet:80,col:'#2AABEE'},{n:'@maria_star',ava:'🐱',bet:70,col:'#FF6B00'}],wDeg=0,wSpinning=false;
-function renderWheel(myB){let list=[...wBots];if(myB)list.push({n:myName,ava:myAva,bet:myB,col:'#9B51E0'});let tot=list.reduce((s,x)=>s+x.bet,0);document.getElementById('wBank').innerText=tot+' ⭐️';let acc=0,grad=[],avas='';list.forEach(p=>{let pct=(p.bet/tot)100,mid=acc+pct/2;grad.push(p.col+' '+acc+'% '+(acc+pct)+'%');let rad=(mid3.6-90)Math.PI/180;let x=50+33Math.cos(rad),y=50+33*Math.sin(rad);avas+=''+p.ava+'';acc+=pct;});const whl=document.getElementById('whl');whl.style.background='conic-gradient('+grad.join(',')+')';whl.innerHTML=avas;document.getElementById('wPlayers').innerHTML=list.map(p=>''+p.ava+' '+p.n+''+p.bet+' ⭐️ ('+((p.bet/tot)*100).toFixed(1)+'%)').join('');return{list,tot};}
+function renderWheel(myB){let list=[...wBots];if(myB)list.push({n:myName,ava:myAva,bet:myB,col:'#9B51E0'});let tot=list.reduce((s,x)=>s+x.bet,0);document.getElementById('wBank').innerText=tot+' ⭐️';let acc=0,grad=[],avas='';list.forEach(p=>{let pct=(p.bet/tot)100,mid=acc+pct/2;grad.push(p.col+' '+acc+'% '+(acc+pct)+'%');let rad=(mid3.6-90)Math.PI/180;let x=50+33Math.cos(rad),y=50+33Math.sin(rad);avas+=''+p.ava+'';acc+=pct;});const whl=document.getElementById('whl');whl.style.background='conic-gradient('+grad.join(',')+')';whl.innerHTML=avas;document.getElementById('wPlayers').innerHTML=list.map(p=>''+p.ava+' '+p.n+''+p.bet+' ⭐️ ('+((p.bet/tot)*100).toFixed(1)+'%)').join('');return{list,tot};}
 function wSpin(){if(wSpinning)return;let b=Math.min(3000,Math.max(10,+document.getElementById('wBet').value||50));if(bal<b)return alert('Мало звёзд');bal-=b;wg+=b;upd();wSpinning=true;const{list,tot}=renderWheel(b);let r=Math.random()tot,acc=0,winP=list,winMid=0;for(let p of list){let pct=(p.bet/tot)100;if(r<p.bet){winP=p;winMid=acc+pct/2;break;}r-=p.bet;acc+=pct;}wDeg+=1440+(360-winMid3.6-(wDeg%360)+360)%360;document.getElementById('whl').style.transform='rotate('+wDeg+'deg)';setTimeout(()=>{wSpinning=false;let prize=Math.floor(tot0.88);if(winP.n===myName){bal+=prize;upd();alert('🎉 Победил '+winP.n+'! Выигрыш: '+prize+' ⭐️');}else alert('Победил '+winP.n+' ('+prize+' ⭐️)');renderWheel();},3700);}
 document.getElementById('mList').innerHTML=GIFTS.map((g,i)=>''+g.n+''+g.p+' ⭐️В инвентарь').join('');
 function buyM(i){if(bal<GIFTS[i].p)return alert('Мало звёзд');bal-=GIFTS[i].p;addGiftToInv(GIFTS[i]);upd();alert('Подарок «'+GIFTS[i].n+'» добавлен в ваш инвентарь!');}
 drawB();upd();
+
+
