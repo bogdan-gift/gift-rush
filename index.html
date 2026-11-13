@@ -37,7 +37,6 @@ input,select{background:#0B0E17;color:#fff;border:1px solid #232A3D;padding:8px;
   <div><b>🎁 Gift Rush</b><span class="badge" id="lvl">LVL 1</span></div>
   <div class="bal">⭐️ <span id="bal">250</span></div>
 </div>
-
 <div id="p-games" class="pg act">
   <div id="lobby">
     <div class="seg">
@@ -134,7 +133,6 @@ input,select{background:#0B0E17;color:#fff;border:1px solid #232A3D;padding:8px;
   <div onclick="tab('tsk',this)">📋<br>Задания</div>
   <div onclick="tab('prf',this)">👤<br>Профиль</div>
 </div>
-
 <script>
 const tg=window.Telegram?.WebApp;
 if(tg){tg.expand();tg.ready();if(tg.initDataUnsafe?.user)document.getElementById('uName').innerText=tg.initDataUnsafe.user.first_name;}
@@ -163,101 +161,104 @@ function tab(t,el){
   el.classList.add('act');
 }
 function mode(m){
-document.getElementById('bAll').classList.toggle('act',m==='all');
-document.getElementById('bFr').classList.toggle('act',m==='fr');
-document.getElementById('g-all').style.display=m==='all'?'grid':'none';
-document.getElementById('g-fr').style.display=m==='fr'?'grid':'none';
+  document.getElementById('bAll').classList.toggle('act',m==='all');
+  document.getElementById('bFr').classList.toggle('act',m==='fr');
+  document.getElementById('g-all').style.display=m==='all'?'grid':'none';
+  document.getElementById('g-fr').style.display=m==='fr'?'grid':'none';
 }
 function openG(g){
-document.getElementById('lobby').style.display='none';
-['mines','crash','cases','upg','wheel'].forEach(x=>document.getElementById('s-'+x).style.display=x===g?'block':'none');
-if(g==='mines')drawB();if(g==='cases')drawC();if(g==='upg')initU();
+  document.getElementById('lobby').style.display='none';
+  ['mines','crash','cases','upg','wheel'].forEach(x=>document.getElementById('s-'+x).style.display=x===g?'block':'none');
+  if(g==='mines')drawB();if(g==='cases')drawC();if(g==='upg')initU();
 }
 function back(){
-document.getElementById('lobby').style.display='block';
-['mines','crash','cases','upg','wheel'].forEach(x=>document.getElementById('s-'+x).style.display='none');
+  document.getElementById('lobby').style.display='block';
+  ['mines','crash','cases','upg','wheel'].forEach(x=>document.getElementById('s-'+x).style.display='none');
 }
 let sz=5,mPlay=false,mines=[],safe=0,mult=1,bet=10;
 function setSz(s){if(!mPlay){sz=s;drawB();}}
 function drawB(){
-const b=document.getElementById('brd');b.style.gridTemplateColumns='repeat('+sz+',1fr)';b.innerHTML='';
-for(let i=0;i<szsz;i++){const c=document.createElement('div');c.className='cell';c.onclick=()=>hit(i,c);b.appendChild(c);}
+  const b=document.getElementById('brd');b.style.gridTemplateColumns='repeat('+sz+',1fr)';b.innerHTML='';
+  for(let i=0;i<sz*sz;i++){const c=document.createElement('div');c.className='cell';c.onclick=()=>hit(i,c);b.appendChild(c);}
 }
 function mAct(){
-const btn=document.getElementById('mBtn');
-if(!mPlay){
-bet=Math.min(3000,Math.max(10,+document.getElementById('mBet').value||10));
-if(bal<bet)return alert('Мало звёзд');
-bal-=bet;wg+=bet;upd();mPlay=true;safe=0;mult=0.88;mines=[];
-let bm=Math.min(szsz-1,Math.max(1,+document.getElementById('bCnt').value||3));
-while(mines.length<bm){let r=Math.floor(Math.random()szsz);if(!mines.includes(r))mines.push(r);}
-drawB();btn.classList.add('gold');btn.innerText='ВЫБЕРИ КЛЕТКУ';
-}else if(safe>0){
-let lim=bet<50?Math.min(500,bet50):bet<250?Math.min(2500,bet20):bet<1000?Math.min(7500,bet10):Math.min(15000,bet5);
-let w=Math.min(Math.floor(betmult),lim);bal+=w;upd();mPlay=false;btn.classList.remove('gold');btn.innerText='ИГРАТЬ';
-alert('Выигрыш: '+w+' ⭐️!');
-}
+  const btn=document.getElementById('mBtn');
+  if(!mPlay){
+    bet=Math.min(3000,Math.max(10,+document.getElementById('mBet').value||10));
+    if(bal<bet)return alert('Мало звёзд');
+    bal-=bet;wg+=bet;upd();mPlay=true;safe=0;mult=0.88;mines=[];
+    let bm=Math.min(sz*sz-1,Math.max(1,+document.getElementById('bCnt').value||3));
+    while(mines.length<bm){let r=Math.floor(Math.random()*sz*sz);if(!mines.includes(r))mines.push(r);}
+    drawB();btn.classList.add('gold');btn.innerText='ВЫБЕРИ КЛЕТКУ';
+  }else if(safe>0){
+    let lim=bet<50?Math.min(500,bet*50):bet<250?Math.min(2500,bet*20):bet<1000?Math.min(7500,bet*10):Math.min(15000,bet*5);
+    let w=Math.min(Math.floor(bet*mult),lim);bal+=w;upd();mPlay=false;btn.classList.remove('gold');btn.innerText='ИГРАТЬ';
+    alert('Выигрыш: '+w+' ⭐️!');
+  }
 }
 function hit(i,c){
-if(!mPlay||c.classList.contains('ok'))return;
-if(mines.includes(i)){
-c.classList.add('boom');c.innerText='💣';mPlay=false;
-document.getElementById('mBtn').classList.remove('gold');document.getElementById('mBtn').innerText='ИГРАТЬ';
-}else{
-mult=(szsz-safe)/(szsz-mines.length-safe);safe++;c.classList.add('ok');c.innerText='💎';
-document.getElementById('mBtn').innerText='ЗАБРАТЬ '+Math.floor(betmult)+' ⭐️';
-}
+  if(!mPlay||c.classList.contains('ok'))return;
+  if(mines.includes(i)){
+    c.classList.add('boom');c.innerText='💣';mPlay=false;
+    document.getElementById('mBtn').classList.remove('gold');document.getElementById('mBtn').innerText='ИГРАТЬ';
+  }else{
+    mult*=(sz*sz-safe)/(sz*sz-mines.length-safe);safe++;c.classList.add('ok');c.innerText='💎';
+    document.getElementById('mBtn').innerText='ЗАБРАТЬ '+Math.floor(bet*mult)+' ⭐️';
+  }
 }
 let cRun=false,cT=null,cCur=1,cEnd=1,cB=25;
 function cAct(){
-const btn=document.getElementById('cBtn');
-if(!cRun){
-cB=Math.min(3000,Math.max(10,+document.getElementById('cBet').value||25));
-if(bal<cB)return alert('Мало звёзд');
-bal-=cB;wg+=cB;upd();cRun=true;cCur=1;
-let r=Math.random();cEnd=r<0.25?1:Math.min(100,+(0.75/(1-r)).toFixed(2));
-btn.classList.add('gold');
-cT=setInterval(()=>{
-if(cCur>=cEnd){clearInterval(cT);cRun=false;document.getElementById('cMult').innerText=cEnd+'x';document.getElementById('cSt').innerText='💥 Взрыв!';btn.classList.remove('gold');btn.innerText='ПОСТАВИТЬ';return;}
-cCur=+(cCur+0.04cCur).toFixed(2);document.getElementById('cMult').innerText=cCur+'x';btn.innerText='ЗАБРАТЬ '+Math.floor(cBcCur)+' ⭐️';
-},100);
-}else{
-clearInterval(cT);cRun=false;let w=Math.min(15000,Math.floor(cBcCur));bal+=w;upd();
-btn.classList.remove('gold');btn.innerText='ПОСТАВИТЬ';alert('Забрал '+w+' ⭐️!');
+  const btn=document.getElementById('cBtn');
+  if(!cRun){
+    cB=Math.min(3000,Math.max(10,+document.getElementById('cBet').value||25));
+    if(bal<cB)return alert('Мало звёзд');
+    bal-=cB;wg+=cB;upd();cRun=true;cCur=1;
+    let r=Math.random();cEnd=r<0.25?1:Math.min(100,+(0.75/(1-r)).toFixed(2));
+    btn.classList.add('gold');
+    cT=setInterval(()=>{
+      if(cCur>=cEnd){clearInterval(cT);cRun=false;document.getElementById('cMult').innerText=cEnd+'x';document.getElementById('cSt').innerText='💥 Взрыв!';btn.classList.remove('gold');btn.innerText='ПОСТАВИТЬ';return;}
+      cCur=+(cCur+0.04*cCur).toFixed(2);document.getElementById('cMult').innerText=cCur+'x';btn.innerText='ЗАБРАТЬ '+Math.floor(cB*cCur)+' ⭐️';
+    },100);
+  }else{
+    clearInterval(cT);cRun=false;let w=Math.min(15000,Math.floor(cB*cCur));bal+=w;upd();
+    btn.classList.remove('gold');btn.innerText='ПОСТАВИТЬ';alert('Забрал '+w+' ⭐️!');
+  }
 }
-}
-function drawC(){document.getElementById('cList').innerHTML=CASES.map((c,i)=>''+c.n+''+c.p+' ⭐️').join('');}
+function drawC(){document.getElementById('cList').innerHTML=CASES.map((c,i)=>'<div class="card" onclick="openC('+i+')"><b>'+c.n+'</b><div style="color:#FFB800;margin-top:6px">'+c.p+' ⭐️</div></div>').join('');}
 function openC(i){
-const c=CASES[i];if(bal<c.p)return alert('Мало звёзд');
-bal-=c.p;wg+=c.p;
-let tot=c.d.reduce((s,x)=>s+x.w,0),r=Math.random()*tot,d=c.d[0];
-for(let x of c.d){if(r<x.w){d=x;break;}r-=x.w;}
-if(d.s)bal+=d.p;else inv.push({n:d.n,p:d.p});
-upd();alert('Выпало: '+d.n);
+  const c=CASES[i];if(bal<c.p)return alert('Мало звёзд');
+  bal-=c.p;wg+=c.p;
+  let tot=c.d.reduce((s,x)=>s+x.w,0),r=Math.random()*tot,d=c.d[0];
+  for(let x of c.d){if(r<x.w){d=x;break;}r-=x.w;}
+  if(d.s)bal+=d.p;else inv.push({n:d.n,p:d.p});
+  upd();alert('Выпало: '+d.n);
 }
 function initU(){
-document.getElementById('uFrom').innerHTML=GIFTS.slice(0,-1).map((g,i)=>''+g.n+' ('+g.p+'⭐️)').join('');
-document.getElementById('uTo').innerHTML=GIFTS.slice(1).map((g,i)=>''+g.n+' ('+g.p+'⭐️)').join('');
-uCalc();
+  document.getElementById('uFrom').innerHTML=GIFTS.slice(0,-1).map((g,i)=>'<option value="'+i+'">'+g.n+' ('+g.p+'⭐️)</option>').join('');
+  document.getElementById('uTo').innerHTML=GIFTS.slice(1).map((g,i)=>'<option value="'+(i+1)+'">'+g.n+' ('+g.p+'⭐️)</option>').join('');
+  uCalc();
 }
 function uCalc(){
-let f=GIFTS[document.getElementById('uFrom').value],t=GIFTS[document.getElementById('uTo').value];
-let ch=Math.min(75,Math.max(1,(f.p/t.p)*85));
-document.getElementById('uCh').innerText='Шанс: '+ch.toFixed(1)+'%';return{f,t,ch};
+  let f=GIFTS[document.getElementById('uFrom').value],t=GIFTS[document.getElementById('uTo').value];
+  let ch=Math.min(75,Math.max(1,(f.p/t.p)*85));
+  document.getElementById('uCh').innerText='Шанс: '+ch.toFixed(1)+'%';return{f,t,ch};
 }
 function uRun(){
-let{f,t,ch}=uCalc();if(t.p<=f.p)return alert('Цель должна быть дороже!');
-if(bal<f.p)return alert('Мало звёзд');bal-=f.p;wg+=f.p;
-if(Math.random()100<=ch){inv.push({n:t.n,p:t.p});alert('🔥 Успех! Выпал '+t.n);}else alert('💥 Не повезло!');
-upd();
+  let{f,t,ch}=uCalc();if(t.p<=f.p)return alert('Цель должна быть дороже!');
+  if(bal<f.p)return alert('Мало звёзд');bal-=f.p;wg+=f.p;
+  if(Math.random()*100<=ch){inv.push({n:t.n,p:t.p});alert('🔥 Успех! Выпал '+t.n);}else alert('💥 Не повезло!');
+  upd();
 }
 let deg=0;
 function wSpin(b){
-if(bal<b)return alert('Мало звёзд');bal-=b;wg+=b;upd();
-deg+=1440+Math.random()360;document.getElementById('whl').style.transform='rotate('+deg+'deg)';
-setTimeout(()=>{bal+=Math.floor(b1.76);upd();alert('🎡 Выигрыш '+Math.floor(b1.76)+' ⭐️!');},3100);
+  if(bal<b)return alert('Мало звёзд');bal-=b;wg+=b;upd();
+  deg+=1440+Math.random()*360;document.getElementById('whl').style.transform='rotate('+deg+'deg)';
+  setTimeout(()=>{bal+=Math.floor(b*1.76);upd();alert('🎡 Выигрыш '+Math.floor(b*1.76)+' ⭐️!');},3100);
 }
-document.getElementById('mList').innerHTML=GIFTS.map((g,i)=>''+g.n+''+g.p+' ⭐️Вывести').join('');
+document.getElementById('mList').innerHTML=GIFTS.map((g,i)=>'<div class="card"><b>'+g.n+'</b><div style="color:#FFB800;margin-top:6px">'+g.p+' ⭐️</div><button class="btn" style="padding:8px;font-size:12px" onclick="buyM('+i+')">Вывести</button></div>').join('');
 function buyM(i){if(bal<GIFTS[i].p)return alert('Мало звёзд');bal-=GIFTS[i].p;upd();alert('Заказ на '+GIFTS[i].n+' оформлен!');}
 function bonus(a){bal+=a;upd();alert('+'+a+' ⭐️!');}
 drawB();upd();
+</script>
+</body>
+</html>
